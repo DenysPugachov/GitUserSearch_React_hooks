@@ -1,11 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
 function App() {
     return (
-        <div className="container">
-            
+        <div className="container pt-4">
+            <h1>Hello React Hooks</h1>
 
         </div>
     );
