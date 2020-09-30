@@ -1,9 +1,8 @@
 import React, { useReducer } from "react";
 import axios from "axios";
-import { CLEAR_USERS, GET_REPOS, SEARCH_USERS, SET_LOADING } from "../types";
+import { GET_USER, CLEAR_USERS, GET_REPOS, SEARCH_USERS, SET_LOADING } from "../types";
 import { GithubContext } from "./githubContext";
 import { githubReducer } from "./githubReducer";
-import { GET_USER } from "./../types";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
@@ -11,7 +10,6 @@ const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 const withCreds = url => {
     return `${url}client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`;
 };
-
 export const GithubState = ({ children }) => {
     const initialState = {
         user: {},
@@ -20,19 +18,18 @@ export const GithubState = ({ children }) => {
         repos: [],
     };
 
-
     const [state, dispatch] = useReducer(githubReducer, initialState);
 
     const search = async value => {
         setLoading();
 
         const response = await axios.get(
-            withCreds(`https://api.github.com/search/users?q=${value}&`),
+            withCreds(`https://api.github.com/search/users?q=${value}&`)
         );
 
         dispatch({
             type: SEARCH_USERS,
-            payload: response.data.items,
+            payload: response.data.items
         });
     };
 
@@ -40,12 +37,14 @@ export const GithubState = ({ children }) => {
         setLoading();
 
         const response = await axios.get(
-            withCreds(`https://api.github.com//users/&${name}?`),
+            withCreds(`https://api.github.com/users/${name}?`)
         );
+
+            console.log("getUser:", response);
 
         dispatch({
             type: GET_USER,
-            payload: response.data,
+            payload: response.data
         });
     };
 
@@ -53,15 +52,14 @@ export const GithubState = ({ children }) => {
         setLoading();
 
         const response = await axios.get(
-            withCreds(
-                `https://api.github.com//users/&${name}/repos?per_page=5&`,
-            ),
+            withCreds(`https://api.github.com/users/${name}/repos?per_page=5&`)
         );
 
         dispatch({
             type: GET_REPOS,
-            payload: response.data,
+            payload: response.data
         });
+
     };
 
     const clearUsers = () => dispatch({ type: CLEAR_USERS });
