@@ -19,6 +19,8 @@ export const GithubState = ({ children }) => {
         loading: false,
         repos: [],
     };
+
+
     const [state, dispatch] = useReducer(githubReducer, initialState);
 
     const search = async value => {
@@ -70,7 +72,7 @@ export const GithubState = ({ children }) => {
 
     return (
         <GithubContext.Provider
-            value={{
+            value={ {
                 setLoading,
                 clearUsers,
                 getRepos,
@@ -80,9 +82,9 @@ export const GithubState = ({ children }) => {
                 users,
                 repos,
                 loading,
-            }}
+            } }
         >
-            {children}
+            {children }
         </GithubContext.Provider>
     );
 };
